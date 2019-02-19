@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Details</title>
+</head>
+<body>
+  <h2>Flight Information</h2>
+    <section>
+        <div>airline: </div>
+        <div><%= flight.airline %></div>
+        <div>flightNo: </div>
+        <div><%= flight.flightNo %></div>
+        <div>departs: </div>
+        <div><%= flight.departs %></div>
+        <div>from: </div>
+        <div><%= flight.airport %></div>
+      </section> 
+
+      
+
+      <br><br><h2>destination</h2>
+      <form id="add-destination-form" method="POST"
+        action="/flights/<%= flight._id %>/destinations">
+        <label>destination:</label>
+        <select name="airport">
+          <option value="AUS">AUS</option>
+          <option value="DAL">DAL</option>
+          <option value="LAX">LAX</option>
+          <option value="SEA">SEA</option>
+        </select>
+        <input type="datetime-local" name="arrival">
+        <input type="submit" value="Add Destination">
+      </form>
+      
+
+      <% if (flight.destinations[0]) { %>
+        <table>
+          <thead>
+            <tr>
+                <th>Date</th>
+                <th>Destination</th>
+                <th>Arrival Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% flight.destinations.forEach(function(f) { %>
+              <tr>
+                <td><%= f.createdAt.toLocaleDateString() %></td>
+                <td><%= f.airport %></td>
+                <td><%= f.arrival %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <h5>No destination Yet</h5>
+      <% } %>
+
+      <br><br>
+      <nav>
+          <a href="/flights/<%=flight._id %>/tickets/new" <%- flight === 'Add Ticket' ? 'class="active"' : '' %>>ADD TICKET</a>
+      </nav>
+
+    <br><br>
+    <h2>Tickets</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Seat</th>
+                <th>Price</th>
+            </tr>
+          </thead>
+      <tbody>
+        <% tickets.forEach(function(t){ %>
+          <tr>
+            <td><%= t.seat %></td>
+            <td><%= t.price %></td>
+          </tr>
+        <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
